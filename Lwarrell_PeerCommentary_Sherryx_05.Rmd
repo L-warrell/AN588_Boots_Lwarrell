@@ -63,6 +63,20 @@ for (i in 1:nHB) {
 
 ### Now that we have our bootstrap, let's calculate the Standard Error and CI
 
+***3. Your code above looks great! Very detailed and labeled clearly. I think the SE and CI you have found below is from only the last bootstrap model (blmHB) — not from the sampling distribution of all 1000 bootstrap replicates.***
+
+```{r}
+#HERE IS MY RECOMMENDED CODE
+# Calculate bootstrap SEs
+boot_SE <- apply(coefsHB, 2, sd)
+
+# Calculate 95% CI using percentiles
+boot_CI <- apply(coefsHB, 2, quantile, probs = c(0.025, 0.975))
+
+boot_SE
+boot_CI
+```
+
 ```{r}
 summary(blmHB)
 confint(blmHB)
