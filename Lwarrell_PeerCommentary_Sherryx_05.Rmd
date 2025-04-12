@@ -11,7 +11,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ***Hi Lindsay, this is Sherry, your peer commentator, all of my comments and suggestions will be in bold and italics.***
 
-Let's Begin by loading our data in!
+***1. Organization: I think it will be more clear for your readers if you change each of your comment before the code into a header, this way you can generate a table of content as well as list the question in the homework***
+
+## [1] Using the “KamilarAndCooperData.csv” dataset, run a linear regression looking at log(HomeRange_km2) in relation to log(Body_mass_female_mean) and report your 𝛽 coeffiecients (slope and intercept).
+
+### Let's Begin by loading our data in!
 
 ```{r}
 library(curl)
@@ -19,28 +23,30 @@ f<-curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/ref
 k<-read.csv(f)
 ```
 
-Let's take a look at this data.
+### Let's take a look at this data.
 
 ```{r}
 head(k)
 str(k)
 ```
 
-Our goal is to run a linear regression between the log of HomeRange_km2 and the log of Body_mass_female_mean so let's see what we find!
+### Our goal is to run a linear regression between the log of HomeRange_km2 and the log of Body_mass_female_mean so let's see what we find!
 
 ```{r}
 lmHB<-lm(data=k, log(HomeRange_km2)~log(Body_mass_female_mean)) #our linear regression equation
 summary(lmHB) #B0 and B1 are the estimate intercept and estimate log(Body_mass_female_mean)
 ```
 
-Our B0 (or y-intercept) is -9.44123 and our B1 (or slope) is 1.03643. For later comparison, let's also extract our original CIs!
+### **Our B0 (or y-intercept) is -9.44123 and our B1 (or slope) is 1.03643. For later comparison, let's also extract our original CIs!**
 
 ```{r}
 CIHB<-confint(lmHB, level=.95) #just pulls our CIs from the linear regression
 CIHB
 ```
 
-Let's begin our bootstrap
+## [2] Then, use bootstrapping to sample from your data 1000 times with replacement, each time fitting the same model and calculating the same coefficients. This generates a sampling distribution for each 𝛽 coefficient.
+
+### Let's begin our bootstrap
 
 ```{r}
 nHB<-1000 #we want 1000 samples
@@ -53,7 +59,7 @@ for (i in 1:nHB) {
 }
 ```
 
-Now that we have our bootstrap, let's calculate the Standard Error and CI
+### Now that we have our bootstrap, let's calculate the Standard Error and CI
 
 ```{r}
 summary(blmHB)
