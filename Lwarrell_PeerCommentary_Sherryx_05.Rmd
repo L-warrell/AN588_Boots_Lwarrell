@@ -39,6 +39,8 @@ summary(lmHB) #B0 and B1 are the estimate intercept and estimate log(Body_mass_f
 
 ### **Our B0 (or y-intercept) is -9.44123 and our B1 (or slope) is 1.03643. For later comparison, let's also extract our original CIs!**
 
+***2. Even though this step was not required in the homework instructions it showed me your dedication and precision finding the CIs!!! Great job!***
+
 ```{r}
 CIHB<-confint(lmHB, level=.95) #just pulls our CIs from the linear regression
 CIHB
