@@ -114,3 +114,19 @@ CIHB
 ```
 
 Our B0 SE was .67293 and our B1 SE was .08488 which is identical to our bootstrap results. Our B0 CIs were -10.7720889 and -8.110374 while our B1 CIs were .8685707 and 1.204292 which are not identical but extremely close.
+
+***OVERALL COMMENT***
+
+***Hi Lindsay, I think overall you did really well at:***
+
+-   ***creating a matrix to store the coefficients.***
+
+-   ***bootstrapping loop is structurally correct.***
+
+-   ***using meaningful variable names.***
+
+-   ***engaging with the comparison between bootstrap and model-based estimates***
+
+***Try the comments and code I have inserted above and maybe if you have time take a look at the extra credit just for fun!***
+
+***Overall, I really enjoyed working with your code and looking through your process. Awesome job!***
