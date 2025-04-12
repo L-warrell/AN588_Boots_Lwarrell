@@ -84,6 +84,30 @@ confint(blmHB)
 
 Our SE for B0 in .67293 and our SE for B1 is .08488. Our CIs for B0 is -10.7373991 to -7.989694 while our CIs for B0 is .8653296 and 1.208998. Now let's compare!
 
+***4. Instead of listing the SE and CI you can also ask r to program and display it, this can help your readers try out the code as well instead of looking for the numerical values***
+
+```{r}
+#HERE IS MY RECOMMENDED CODE
+# Model-based SEs
+summary(lmHB)$coefficients[, "Std. Error"]
+
+# Model-based CIs
+confint(lmHB)
+
+# Then compare with boot_SE and boot_CI above
+```
+
+```{r}
+#HERE IS MY RECOMMENDED CODE
+#direct print out of the SE and CI from what you have calculated above 
+
+cat("Bootstrap SEs:\n")
+print(round(boot_SE, 4))
+
+cat("Bootstrap 95% CIs:\n")
+print(round(boot_CI, 4))
+```
+
 ```{r}
 summary(lmHB)
 CIHB
