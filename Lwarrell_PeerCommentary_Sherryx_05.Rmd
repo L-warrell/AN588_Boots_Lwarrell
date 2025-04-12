@@ -1,0 +1,70 @@
+---
+title: "Lwarrell_PeerCommentary_Sherryx_05"
+author: "Sherry Xie"
+date: "2025-04-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***Hi Lindsay, this is Sherry, your peer commentator, all of my comments and suggestions will be in bold and italics.***
+
+Let's Begin by loading our data in!
+
+```{r}
+library(curl)
+f<-curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/refs/heads/master/AN588_Spring25/KamilarAndCooperData.csv")
+k<-read.csv(f)
+```
+
+Let's take a look at this data.
+
+```{r}
+head(k)
+str(k)
+```
+
+Our goal is to run a linear regression between the log of HomeRange_km2 and the log of Body_mass_female_mean so let's see what we find!
+
+```{r}
+lmHB<-lm(data=k, log(HomeRange_km2)~log(Body_mass_female_mean)) #our linear regression equation
+summary(lmHB) #B0 and B1 are the estimate intercept and estimate log(Body_mass_female_mean)
+```
+
+Our B0 (or y-intercept) is -9.44123 and our B1 (or slope) is 1.03643. For later comparison, let's also extract our original CIs!
+
+```{r}
+CIHB<-confint(lmHB, level=.95) #just pulls our CIs from the linear regression
+CIHB
+```
+
+Let's begin our bootstrap
+
+```{r}
+nHB<-1000 #we want 1000 samples
+coefsHB<-matrix(NA, nrow=nHB, ncol=length(coef(lmHB))) #pulling our coefs into a matrix to make them easier to sort through later
+colnames(coefsHB)<-names(coef(lmHB)) #naming our columns :)
+for (i in 1:nHB) {
+  sHB<-k[sample(nrow(k),replace=T),] #sampling for our bootstrapping
+  blmHB<-lm(data=sHB, log(HomeRange_km2)~log(Body_mass_female_mean)) #linear regression for the bootsrap
+  coefsHB[i,]<-coef(blmHB)
+}
+```
+
+Now that we have our bootstrap, let's calculate the Standard Error and CI
+
+```{r}
+summary(blmHB)
+confint(blmHB)
+```
+
+Our SE for B0 in .67293 and our SE for B1 is .08488. Our CIs for B0 is -10.7373991 to -7.989694 while our CIs for B0 is .8653296 and 1.208998. Now let's compare!
+
+```{r}
+summary(lmHB)
+CIHB
+```
+
+Our B0 SE was .67293 and our B1 SE was .08488 which is identical to our bootstrap results. Our B0 CIs were -10.7720889 and -8.110374 while our B1 CIs were .8685707 and 1.204292 which are not identical but extremely close.
