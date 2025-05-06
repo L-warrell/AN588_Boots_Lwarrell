@@ -9,11 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Sherry Xie" />
 
-<meta name="date" content="2025-04-12" />
+<meta name="date" content="2025-04-13" />
 
-<title>Lwarrell_PeerCommentary_Sherryx_05</title>
+<title>Lwarrell_FinalHomeworkCode_05</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,24 +349,16 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Lwarrell_PeerCommentary_Sherryx_05</h1>
-<h4 class="author">Sherry Xie</h4>
-<h4 class="date">2025-04-12</h4>
+<h1 class="title toc-ignore">Lwarrell_FinalHomeworkCode_05</h1>
+<h4 class="date">2025-04-13</h4>
 
 </div>
 
 
-<p><strong><em>Hi Lindsay, this is Sherry, your peer commentator, all of
-my comments and suggestions will be in bold and
-italics.</em></strong></p>
-<p><strong><em>1. Organization: I think it will be more clear for your
-readers if you change each of your comment before the code into a
-header, this way you can generate a table of content as well as list the
-question in the homework</em></strong></p>
-<div id="using-the-kamilarandcooperdata.csv-dataset-run-a-linear-regression-looking-at-loghomerange_km2-in-relation-to-logbody_mass_female_mean-and-report-your-𝛽-coeffiecients-slope-and-intercept." class="section level2">
+<div id="using-the-kamilarandcooperdata.csv-dataset-run-a-linear-regression-looking-at-loghomerange_km2-in-relation-to-logbody_mass_female_mean-and-report-your-beta-coeffiecients-slope-and-intercept." class="section level2">
 <h2>[1] Using the “KamilarAndCooperData.csv” dataset, run a linear
 regression looking at log(HomeRange_km2) in relation to
-log(Body_mass_female_mean) and report your 𝛽 coeffiecients (slope and
+log(Body_mass_female_mean) and report your <span class="math inline">\(\beta\)</span> coeffiecients (slope and
 intercept).</h2>
 <div id="lets-begin-by-loading-our-data-in" class="section level3">
 <h3>Let’s Begin by loading our data in!</h3>
@@ -530,13 +521,10 @@ summary(lmHB) #B0 and B1 are the estimate intercept and estimate log(Body_mass_f
 ## Multiple R-squared:  0.5248, Adjusted R-squared:  0.5213 
 ## F-statistic: 149.1 on 1 and 135 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div id="our-b0-or-y-intercept-is--9.44123-and-our-b1-or-slope-is-1.03643.-for-later-comparison-lets-also-extract-our-original-cis" class="section level3">
-<h3><strong>Our B0 (or y-intercept) is -9.44123 and our B1 (or slope) is
-1.03643. For later comparison, let’s also extract our original
-CIs!</strong></h3>
-<p><strong><em>2. Even though this step was not required in the homework
-instructions it showed me your dedication and precision finding the
-CIs!!! Great job!</em></strong></p>
+<div id="our-beta-0-or-y-intercept-is--9.44123-and-our-beta-1-or-slope-is-1.03643.-for-later-comparison-lets-also-extract-our-original-cis" class="section level3">
+<h3><strong>Our <span class="math inline">\(\beta\)</span> 0 (or
+y-intercept) is -9.44123 and our <span class="math inline">\(\beta\)</span> 1 (or slope) is 1.03643. For later
+comparison, let’s also extract our original CIs!</strong></h3>
 <pre class="r"><code>CIHB&lt;-confint(lmHB, level=.95) #just pulls our CIs from the linear regression
 CIHB</code></pre>
 <pre><code>##                                  2.5 %    97.5 %
@@ -544,11 +532,10 @@ CIHB</code></pre>
 ## log(Body_mass_female_mean)   0.8685707  1.204292</code></pre>
 </div>
 </div>
-<div id="then-use-bootstrapping-to-sample-from-your-data-1000-times-with-replacement-each-time-fitting-the-same-model-and-calculating-the-same-coefficients.-this-generates-a-sampling-distribution-for-each-𝛽-coefficient." class="section level2">
+<div id="then-use-bootstrapping-to-sample-from-your-data-1000-times-with-replacement-each-time-fitting-the-same-model-and-calculating-the-same-coefficients.-this-generates-a-sampling-distribution-for-each-beta-coefficient." class="section level2">
 <h2>[2] Then, use bootstrapping to sample from your data 1000 times with
 replacement, each time fitting the same model and calculating the same
-coefficients. This generates a sampling distribution for each 𝛽
-coefficient.</h2>
+coefficients. This generates a sampling distribution for each <span class="math inline">\(\beta\)</span> coefficient.</h2>
 <div id="lets-begin-our-bootstrap" class="section level3">
 <h3>Let’s begin our bootstrap</h3>
 <pre class="r"><code>nHB&lt;-1000 #we want 1000 samples
@@ -563,12 +550,7 @@ for (i in 1:nHB) {
 <div id="now-that-we-have-our-bootstrap-lets-calculate-the-standard-error-and-ci" class="section level3">
 <h3>Now that we have our bootstrap, let’s calculate the Standard Error
 and CI</h3>
-<p><strong><em>3. Your code above looks great! Very detailed and labeled
-clearly. I think the SE and CI you have found below is from only the
-last bootstrap model (blmHB) — not from the sampling distribution of all
-1000 bootstrap replicates.</em></strong></p>
-<pre class="r"><code>#HERE IS MY RECOMMENDED CODE
-# Calculate bootstrap SEs
+<pre class="r"><code># Calculate bootstrap SEs
 boot_SE &lt;- apply(coefsHB, 2, sd)
 
 # Calculate 95% CI using percentiles
@@ -576,11 +558,11 @@ boot_CI &lt;- apply(coefsHB, 2, quantile, probs = c(0.025, 0.975))
 
 boot_SE</code></pre>
 <pre><code>##                (Intercept) log(Body_mass_female_mean) 
-##                 0.57998212                 0.07501221</code></pre>
+##                 0.59692679                 0.07638465</code></pre>
 <pre class="r"><code>boot_CI</code></pre>
 <pre><code>##       (Intercept) log(Body_mass_female_mean)
-## 2.5%   -10.578851                  0.8973794
-## 97.5%   -8.372209                  1.1847160</code></pre>
+## 2.5%   -10.656187                  0.8990777
+## 97.5%   -8.350297                  1.1850888</code></pre>
 <pre class="r"><code>summary(blmHB)</code></pre>
 <pre><code>## 
 ## Call:
@@ -589,31 +571,24 @@ boot_SE</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -3.3747 -0.7388  0.0600  0.7885  3.6053 
+## -3.3855 -1.0479  0.1127  1.0829  3.6407 
 ## 
 ## Coefficients:
-##                             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)                -10.15857    0.73189  -13.88   &lt;2e-16 ***
-## log(Body_mass_female_mean)   1.12693    0.09145   12.32   &lt;2e-16 ***
+##                            Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                -9.49109    0.76413  -12.42   &lt;2e-16 ***
+## log(Body_mass_female_mean)  1.04688    0.09483   11.04   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 1.437 on 135 degrees of freedom
+## Residual standard error: 1.517 on 135 degrees of freedom
 ##   (76 observations deleted due to missingness)
-## Multiple R-squared:  0.5294, Adjusted R-squared:  0.5259 
-## F-statistic: 151.8 on 1 and 135 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Multiple R-squared:  0.4744, Adjusted R-squared:  0.4705 
+## F-statistic: 121.9 on 1 and 135 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>confint(blmHB)</code></pre>
 <pre><code>##                                  2.5 %    97.5 %
-## (Intercept)                -11.6060134 -8.711125
-## log(Body_mass_female_mean)   0.9460673  1.307798</code></pre>
-<p>Our SE for B0 in .67293 and our SE for B1 is .08488. Our CIs for B0
-is -10.7373991 to -7.989694 while our CIs for B0 is .8653296 and
-1.208998. Now let’s compare!</p>
-<p><strong><em>4. Instead of listing the SE and CI you can also ask r to
-program and display it, this can help your readers try out the code as
-well instead of looking for the numerical values</em></strong></p>
-<pre class="r"><code>#HERE IS MY RECOMMENDED CODE
-# Model-based SEs
+## (Intercept)                -11.0023139 -7.979875
+## log(Body_mass_female_mean)   0.8593323  1.234431</code></pre>
+<pre class="r"><code># Model-based SEs
 summary(lmHB)$coefficients[, &quot;Std. Error&quot;]</code></pre>
 <pre><code>##                (Intercept) log(Body_mass_female_mean) 
 ##                 0.67293459                 0.08487709</code></pre>
@@ -623,20 +598,19 @@ confint(lmHB)</code></pre>
 ## (Intercept)                -10.7720889 -8.110374
 ## log(Body_mass_female_mean)   0.8685707  1.204292</code></pre>
 <pre class="r"><code># Then compare with boot_SE and boot_CI above</code></pre>
-<pre class="r"><code>#HERE IS MY RECOMMENDED CODE
-#direct print out of the SE and CI from what you have calculated above 
+<pre class="r"><code>#direct print out of the SE and CI from what you have calculated above 
 
 cat(&quot;Bootstrap SEs:\n&quot;)</code></pre>
 <pre><code>## Bootstrap SEs:</code></pre>
 <pre class="r"><code>print(round(boot_SE, 4))</code></pre>
 <pre><code>##                (Intercept) log(Body_mass_female_mean) 
-##                      0.580                      0.075</code></pre>
+##                     0.5969                     0.0764</code></pre>
 <pre class="r"><code>cat(&quot;Bootstrap 95% CIs:\n&quot;)</code></pre>
 <pre><code>## Bootstrap 95% CIs:</code></pre>
 <pre class="r"><code>print(round(boot_CI, 4))</code></pre>
 <pre><code>##       (Intercept) log(Body_mass_female_mean)
-## 2.5%     -10.5789                     0.8974
-## 97.5%     -8.3722                     1.1847</code></pre>
+## 2.5%     -10.6562                     0.8991
+## 97.5%     -8.3503                     1.1851</code></pre>
 <pre class="r"><code>summary(lmHB)</code></pre>
 <pre><code>## 
 ## Call:
@@ -662,28 +636,12 @@ cat(&quot;Bootstrap SEs:\n&quot;)</code></pre>
 <pre><code>##                                  2.5 %    97.5 %
 ## (Intercept)                -10.7720889 -8.110374
 ## log(Body_mass_female_mean)   0.8685707  1.204292</code></pre>
-<p>Our B0 SE was .67293 and our B1 SE was .08488 which is identical to
-our bootstrap results. Our B0 CIs were -10.7720889 and -8.110374 while
-our B1 CIs were .8685707 and 1.204292 which are not identical but
-extremely close.</p>
-<p><strong><em>OVERALL COMMENT</em></strong></p>
-<p><strong><em>Hi Lindsay, I think overall you did really well
-at:</em></strong></p>
-<ul>
-<li><p><strong><em>creating a matrix to store the
-coefficients.</em></strong></p></li>
-<li><p><strong><em>bootstrapping loop is structurally
-correct.</em></strong></p></li>
-<li><p><strong><em>using meaningful variable
-names.</em></strong></p></li>
-<li><p><strong><em>engaging with the comparison between bootstrap and
-model-based estimates</em></strong></p></li>
-</ul>
-<p><strong><em>Try the comments and code I have inserted above and maybe
-if you have time take a look at the extra credit just for
-fun!</em></strong></p>
-<p><strong><em>Overall, I really enjoyed working with your code and
-looking through your process. Awesome job!</em></strong></p>
+<p>Our <span class="math inline">\(\beta\)</span> 0 SE was .67293 and
+our <span class="math inline">\(\beta\)</span> 1 SE was .08488 which is
+similar but not identical to our bootstrap results. Our <span class="math inline">\(\beta\)</span> 0 CIs were -10.7720889 and
+-8.110374 while our <span class="math inline">\(\beta\)</span> 1 CIs
+were .8685707 and 1.204292 which are identical to our bootstap
+results!</p>
 </div>
 </div>
 

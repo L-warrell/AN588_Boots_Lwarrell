@@ -1,0 +1,97 @@
+---
+title: "Lwarrell_FinalHomeworkCode_05"
+output: html_document
+date: "2025-04-13"
+---
+
+## [1] Using the “KamilarAndCooperData.csv” dataset, run a linear regression looking at log(HomeRange_km2) in relation to log(Body_mass_female_mean) and report your $\beta$ coeffiecients (slope and intercept).
+
+### Let's Begin by loading our data in!
+
+```{r}
+library(curl)
+f<-curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/refs/heads/master/AN588_Spring25/KamilarAndCooperData.csv")
+k<-read.csv(f)
+```
+
+### Let's take a look at this data.
+
+```{r}
+head(k)
+str(k)
+```
+
+### Our goal is to run a linear regression between the log of HomeRange_km2 and the log of Body_mass_female_mean so let's see what we find!
+
+```{r}
+lmHB<-lm(data=k, log(HomeRange_km2)~log(Body_mass_female_mean)) #our linear regression equation
+summary(lmHB) #B0 and B1 are the estimate intercept and estimate log(Body_mass_female_mean)
+```
+
+### **Our $\beta$ 0 (or y-intercept) is -9.44123 and our $\beta$ 1 (or slope) is 1.03643. For later comparison, let's also extract our original CIs!**
+
+
+```{r}
+CIHB<-confint(lmHB, level=.95) #just pulls our CIs from the linear regression
+CIHB
+```
+
+## [2] Then, use bootstrapping to sample from your data 1000 times with replacement, each time fitting the same model and calculating the same coefficients. This generates a sampling distribution for each $\beta$ coefficient.
+
+### Let's begin our bootstrap
+
+```{r}
+nHB<-1000 #we want 1000 samples
+coefsHB<-matrix(NA, nrow=nHB, ncol=length(coef(lmHB))) #pulling our coefs into a matrix to make them easier to sort through later
+colnames(coefsHB)<-names(coef(lmHB)) #naming our columns :)
+for (i in 1:nHB) {
+  sHB<-k[sample(nrow(k),replace=T),] #sampling for our bootstrapping
+  blmHB<-lm(data=sHB, log(HomeRange_km2)~log(Body_mass_female_mean)) #linear regression for the bootsrap
+  coefsHB[i,]<-coef(blmHB)
+}
+```
+
+### Now that we have our bootstrap, let's calculate the Standard Error and CI
+
+```{r}
+# Calculate bootstrap SEs
+boot_SE <- apply(coefsHB, 2, sd)
+
+# Calculate 95% CI using percentiles
+boot_CI <- apply(coefsHB, 2, quantile, probs = c(0.025, 0.975))
+
+boot_SE
+boot_CI
+```
+
+```{r}
+summary(blmHB)
+confint(blmHB)
+```
+
+```{r}
+# Model-based SEs
+summary(lmHB)$coefficients[, "Std. Error"]
+
+# Model-based CIs
+confint(lmHB)
+
+# Then compare with boot_SE and boot_CI above
+```
+
+```{r}
+#direct print out of the SE and CI from what you have calculated above 
+
+cat("Bootstrap SEs:\n")
+print(round(boot_SE, 4))
+
+cat("Bootstrap 95% CIs:\n")
+print(round(boot_CI, 4))
+```
+
+```{r}
+summary(lmHB)
+CIHB
+```
+Our $\beta$ 0 SE was .67293 and our $\beta$ 1 SE was .08488 which is similar but not identical to our bootstrap results. Our $\beta$ 0 CIs were -10.7720889 and -8.110374 while our $\beta$ 1 CIs were .8685707 and 1.204292 which are identical to our bootstap results!
+
